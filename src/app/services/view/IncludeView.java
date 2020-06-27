@@ -17,6 +17,7 @@ public class IncludeView extends ViewImpl {
 
 	@Override
 	public void get() {
+		pushAttribute();
 		response.setContentType(contentType);
 		response.setCharacterEncoding(encoding);
 

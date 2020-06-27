@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Case-study:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/Case_study_war</output-path>
+    <root id="archive" name="Case-study_war.war">
+      <element id="artifact" artifact-name="Case-study:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="json-20200518" />
+          <element id="library" level="project" name="websocket-api" />
+          <element id="library" level="project" name="mysql-connector-java-8.0.20" />
+          <element id="library" level="project" name="taglibs-standard-impl-1.2.5" />
+          <element id="library" level="project" name="taglibs-standard-spec-1.2.5" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

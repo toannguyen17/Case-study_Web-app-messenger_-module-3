@@ -26,6 +26,14 @@ public abstract class GuestGuard {
 	}
 
 	public GuestGuard(HttpServletRequest req) {
+		this.setSessionCookieREQ(req);
+	}
+
+	public GuestGuard(HttpServletRequest req, HttpServletResponse resp) {
+		this.setSessionCookieREQ(req);
+	}
+
+	public void setSessionCookieREQ(HttpServletRequest req) {
 		this.session = req.getSession(true);
 		this.cookies = req.getCookies();
 	}

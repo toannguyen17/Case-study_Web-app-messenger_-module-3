@@ -10,6 +10,7 @@
           <element id="library" level="project" name="mysql-connector-java-8.0.20" />
           <element id="library" level="project" name="taglibs-standard-impl-1.2.5" />
           <element id="library" level="project" name="taglibs-standard-spec-1.2.5" />
+          <element id="library" level="project" name="commons-cli-1.4" />
         </element>
       </element>
     </root>

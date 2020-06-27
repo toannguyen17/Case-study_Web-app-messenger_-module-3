@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class ViewImpl implements View {
-	protected String contentType = "text/html";
-	protected String encoding    = "UTF-8";
-
 	protected Map<String, Parameter> param;
 
 	protected HttpServletRequest request;
@@ -24,12 +21,19 @@ public abstract class ViewImpl implements View {
 	protected ViewImpl(HttpServletRequest req, HttpServletResponse resp){
 		request  = req;
 		response = resp;
+		setDefault();
 	}
 
 	protected ViewImpl(HttpServletRequest req, HttpServletResponse resp, String layout){
 		request  = req;
 		response = resp;
 		this.layout = layout;
+		setDefault();
+	}
+
+	private void setDefault(){
+		setContentType(PageConfig.TYPE_CONTENT_TEXT);
+		setCharacterEncoding(PageConfig.ENCODING_UTF_8);
 	}
 
 	public void setLayout(String layout) {
@@ -37,11 +41,19 @@ public abstract class ViewImpl implements View {
 	}
 
 	public void setContentType(String contentType) {
-		this.contentType = contentType;
+		response.setContentType(contentType);
 	}
 
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
+	public void setCharacterEncoding(String encoding) {
+		response.setCharacterEncoding(encoding);
+	}
+
+	public void setHeader(String key, String value) {
+		response.setHeader(key, value);
+	}
+
+	public void setContentLength(int length) {
+		response.setContentLength(length);
 	}
 
 	public void setAttribute(String name, Parameter parameter) {

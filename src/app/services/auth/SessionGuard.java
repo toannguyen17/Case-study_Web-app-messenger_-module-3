@@ -32,10 +32,26 @@ public class SessionGuard extends GuestGuard implements Auth, Guard {
 	}
 
 	@Override
+	public long id() {
+		return 0;
+	}
+
+	@Override
 	public boolean check() {
 		String name = (String) session.getAttribute("name");
 		System.out.println(name);
 		return false;
 	}
 
+	@Override
+	public void login(User user) {
+		System.out.println("--------------123");
+		System.out.println(user.getId());
+		System.out.println(user.getRemember_token());
+	}
+
+	@Override
+	public void logout() {
+
+	}
 }

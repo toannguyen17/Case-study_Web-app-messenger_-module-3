@@ -1,5 +1,7 @@
 package app.services.database;
 
+import app.config.SQL;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,13 +9,11 @@ import java.sql.SQLException;
 
 public abstract class Model {
 
-	private static final String GET_BY_ID_SQL = "SELECT * FROM ? WHERE `id` = ?;";
-
 	protected static String table;
 	protected static String[] fillable;
 
 	protected String getTable(){
-		if (table == null){
+		if (table != null){
 			return table;
 		}
 		String[] names = this.getClass().getName().split("\\.");
@@ -25,22 +25,24 @@ public abstract class Model {
 
 	// Find by ID
 	public ResultSet find(long id){
+		String table = getTable();
+		if (table == null) return null;
+
 		Connection connection = DatabaseManager.getInstance().getConnection();
 		ResultSet result = null;
 		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_ID_SQL);
-			preparedStatement.setString(1, getTable());
-			preparedStatement.setLong(2, id);
-
-			System.out.println(preparedStatement);
+			String SQL_QUERY = SQL.GET_BY_ID_SQL.replaceFirst("\\?", table);
+			PreparedStatement preparedStatement = connection.prepareStatement(SQL_QUERY);
+			preparedStatement.setLong(1, id);
 
 			result = preparedStatement.executeQuery();
-			if (result.first()){
-
+			if (result.next()){
+				setData(result);
 			}
 		} catch (SQLException throwables) {
-			throwables.printStackTrace();
 		}
 		return result;
 	}
+
+	abstract protected void setData(ResultSet data);
 }

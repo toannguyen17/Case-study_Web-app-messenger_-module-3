@@ -12,6 +12,10 @@
           <element id="library" level="project" name="mysql-connector-java-8.0.20" />
           <element id="library" level="project" name="taglibs-standard-impl-1.2.5" />
           <element id="library" level="project" name="taglibs-standard-spec-1.2.5" />
+          <element id="library" level="project" name="commons-cli-1.4" />
+          <element id="library" level="project" name="bytes-1.3.0" />
+          <element id="library" level="project" name="bcrypt-cli-0.9.0" />
+          <element id="library" level="project" name="bcrypt-0.9.0-optimized" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="Case-study/web/Web" />

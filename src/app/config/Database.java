@@ -5,7 +5,7 @@ public interface Database {
 	String DB_CONNECTION = "mysql";
 	String HOST          = "127.0.0.1";
 	String PORT          = "3306";
-	String DATABASE      = "messager";
+	String DATABASE      = "messenger";
 	String USERNAME      = "root";
 	String PASSWORD      = "";
 	String[] PARAMETER   = {"useSSl=false", "serverTimezone=UTC"};

@@ -18,8 +18,6 @@ public class IncludeView extends ViewImpl {
 	@Override
 	public void get() {
 		pushAttribute();
-		response.setContentType(contentType);
-		response.setCharacterEncoding(encoding);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(layout);
 		try {
@@ -29,9 +27,5 @@ public class IncludeView extends ViewImpl {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void include(){
-		get();
 	}
 }

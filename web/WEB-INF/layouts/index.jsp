@@ -20,9 +20,46 @@
     <meta name="author" content="RedT">
 
     <title>${requestScope["title"].getElement()}></title>
-    <jsp:include page="themes/bootstrap.jsp"></jsp:include>
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+    <jsp:include page="themes/style.jsp"></jsp:include>
+
+    <script src="/assets/js/home/FormLogin.js"></script>
+    <script src="/assets/js/home/FormRegister.js"></script>
+    <script src="/assets/js/home.js"></script>
 </head>
 <body>
-
+<header class="fixed-top shadow-sm bg-white">
+    <div class="reg_box">
+        <nav class="navbar navbar-expand-sm navbar-light">
+            <div class="navbar-brand">
+                <div class="logo-header">
+                    <jsp:include page="themes/icons/logo.jsp"></jsp:include>
+                </div>
+                Messenger
+            </div>
+        </nav>
+    </div>
+</header>
+<section class="mt-76 reg_box">
+    <div class="row">
+        <div class="col col-12 col-md-6 col-lg-7">
+            <div class="pl-2 pr-2 bf8">
+                <section class="row">
+                    <article class="col col-12 col-lg-6">
+                        A
+                    </article>
+                    <article class="col col-12 col-lg-6">
+                        B
+                    </article>
+                </section>
+            </div>
+        </div>
+        <section class="col col-12 col-md-6 col-lg-5">
+            <jsp:include page="auth/login_home.jsp"></jsp:include>
+        </section>
+    </div>
+</section>
 </body>
 </html>

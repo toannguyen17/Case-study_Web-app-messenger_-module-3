@@ -1,4 +1,4 @@
-package app.services.Helpers.string;
+package app.services.helpers;
 
 public interface Characters {
 	String COLON          = ":";

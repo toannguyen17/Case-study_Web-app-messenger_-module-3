@@ -1,26 +1,53 @@
 package app.services.websocket;
 
+import app.services.auth.Auth;
+import app.services.auth.SessionGuard;
+import app.services.helpers.CookieHelpers;
 import app.services.websocket.message.*;
 import org.json.JSONException;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 @ServerEndpoint(value = "/websocket", encoders = MessageEncoder.class, decoders = MessageDecoder.class, configurator = EndpointConfigurator.class)
 public class Client {
 	public static WebSocket webSocket = WebSocket.getInstance();
 
-	public HttpSession httpSession;
+	private Auth auth;
 
 	private Session session;
 
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig config) {
-		this.session     = session;
-		this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-		String chatRoom  = (String) httpSession.getAttribute("chatRoom");
-		System.out.println("----------OPEN---------");
+		Map<String, Object> properties = config.getUserProperties();
+		this.session = session;
+		HttpSession httpSession = (HttpSession) properties.get(HttpSession.class.getName());
+
+		List<String> cookies = (List<String>) properties.get(Cookie.class.getName());
+
+		Cookie[] resultCookie = null;
+
+		if (cookies != null) {
+			CookieHelpers cookieString = new CookieHelpers(cookies);
+			resultCookie = cookieString.getCookies();
+		}
+
+		auth = new SessionGuard(httpSession, resultCookie);
+		if (auth.check()){
+			//
+		}else{
+			auth = null;
+			try {
+				session.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@OnClose

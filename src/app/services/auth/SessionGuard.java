@@ -2,8 +2,7 @@ package app.services.auth;
 
 import app.config.PageConfig;
 import app.model.User;
-import app.services.database.UserProvider;
-import app.services.helpers.string.Str;
+import app.services.helpers.Str;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +37,10 @@ public class SessionGuard extends GuardHelpers implements Auth, Guard {
 		if (user != null) {
 			return user;
 		}
+
+		if(session.getAttribute(PageConfig.SESSION_ID) == null)
+			return null;
+
 		long id = (long) session.getAttribute(PageConfig.SESSION_ID);
 
 		if (id != 0){
@@ -82,14 +85,11 @@ public class SessionGuard extends GuardHelpers implements Auth, Guard {
 	}
 
 	@Override
-	public long id() {
-		return 0;
-	}
-
-	@Override
 	public boolean check() {
-		String name = (String) session.getAttribute("name");
-		System.out.println(name);
+		User user = user();
+		if (user != null){
+			return true;
+		}
 		return false;
 	}
 
@@ -97,12 +97,11 @@ public class SessionGuard extends GuardHelpers implements Auth, Guard {
 	public void login(User user) {
 		updateSession(user.getId());
 
-		//ensureRememberTokenIsSet(user);
-		//createRecallerCookie(user);
-
-		System.out.println("--------------123");
-		System.out.println(user.getId());
-		System.out.println(user.getRemember_token());
+		// cookie token
+		if (response != null){
+			ensureRememberTokenIsSet(user);
+			createRecallerCookie(user);
+		}
 	}
 
 	private void updateSession(long id){
@@ -135,7 +134,7 @@ public class SessionGuard extends GuardHelpers implements Auth, Guard {
 	public void logout() {
 		session.removeAttribute(PageConfig.SESSION_ID);
 
-		if (cookies != null){
+		if (cookies != null && response != null){
 			for (Cookie cookie : cookies) {
 				String cName = cookie.getName();
 				if (PageConfig.SESSION_RECALLER.equals(cName)){

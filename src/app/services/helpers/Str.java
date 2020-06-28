@@ -1,9 +1,12 @@
-package app.services.helpers.string;
+package app.services.helpers;
 
 import java.util.Base64;
 import java.util.Random;
 
 public class Str {
+	public Str(){
+	}
+
 	public String random(int length) {
 		StringBuilder string = new StringBuilder();
 		int len;
@@ -21,7 +24,7 @@ public class Str {
 		return string.toString();
 	}
 
-	private byte[] random_bytes(int size) {
+	public byte[] random_bytes(int size) {
 		byte[] bytes = new byte[size];
 		new Random().nextBytes(bytes);
 		return bytes;

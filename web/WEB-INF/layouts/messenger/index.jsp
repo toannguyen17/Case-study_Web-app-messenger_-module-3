@@ -20,7 +20,7 @@
     <meta name="author" content="RedT">
 
     <title>${requestScope["title"].getElement()}></title>
-    <jsp:include page="themes/style.jsp"></jsp:include>
+    <jsp:include page="../themes/style.jsp"></jsp:include>
 </head>
 <body>
 <header class="fixed-top shadow-sm bg-light">
@@ -28,7 +28,7 @@
         <nav class="navbar navbar-expand-sm navbar-light">
             <div class="navbar-brand">
                 <div class="logo-header">
-                    <jsp:include page="themes/icons/logo.jsp"></jsp:include>
+                    <jsp:include page="../themes/icons/logo.jsp"></jsp:include>
                 </div>
                 Messenger
             </div>

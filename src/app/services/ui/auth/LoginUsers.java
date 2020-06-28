@@ -33,8 +33,6 @@ public class LoginUsers {
 	public void login(HttpServletRequest req, HttpServletResponse resp) {
 		List<String> errors = validator(req);
 
-		System.out.println(errors);
-
 		View view = new TextView(req, resp);
 		view.setContentType(PageConfig.TYPE_CONTENT_JSON);
 
@@ -49,7 +47,7 @@ public class LoginUsers {
 			User user = attemptLogin(req);
 			if(user != null) {
 				jsonResponse.put("status", 1);
-				Guard guard = new SessionGuard(req);
+				Guard guard = new SessionGuard(req, resp);
 				guard.login(user);
 			}else{
 				jsonResponse.put("status", 2);

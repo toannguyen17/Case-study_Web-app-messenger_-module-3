@@ -1,7 +1,7 @@
 package app.services.database;
 
 import app.config.Database;
-import app.services.Helpers.string.Characters;
+import app.services.helpers.Characters;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,8 +17,6 @@ public class DatabaseManager {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch(ClassNotFoundException e) {
 			System.out.println("driver mysql not found!");
-			System.out.println("Stop App...");
-			System.exit(0);
 		}
 
 		String url = getURL();
@@ -29,8 +27,7 @@ public class DatabaseManager {
 			System.out.println("MySQL connection successful.");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("Stop App...");
-			System.exit(0);
+			System.out.println("Stop Connect MySQL...");
 		}
 	}
 

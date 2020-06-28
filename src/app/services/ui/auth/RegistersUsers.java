@@ -49,7 +49,7 @@ public class RegistersUsers {
 				jsonResponse.append("errors", "Lỗi bất ngờ, vui lòng thử lại.");
 			} else {
 				jsonResponse.put("status", 1);
-				Guard guard = new SessionGuard(req);
+				Guard guard = new SessionGuard(req, resp);
 				guard.login(user);
 			}
 		}
@@ -145,9 +145,6 @@ public class RegistersUsers {
 				User user = new User();
 				user.find(users_id);
 
-				System.out.println(user.getId());
-				System.out.println(user.getPassword());
-
 				return user;
 
 			} catch (SQLException throwables) {
@@ -198,7 +195,6 @@ public class RegistersUsers {
 							preparedStatement.setString(1, number);
 							ResultSet result = preparedStatement.executeQuery();
 							if (result.next()) {
-								System.out.println(result.getLong("id"));
 								errors.add("Số điện thoại đã tồn tại.");
 							}
 						} catch (SQLException throwables) {

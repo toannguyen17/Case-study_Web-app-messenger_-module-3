@@ -47,7 +47,7 @@ public class User extends Model {
 	}
 
 	@Override
-	protected void setData(ResultSet data) {
+	public void setData(ResultSet data) {
 		try {
 			id             = data.getLong("id");
 			password       = data.getString("password");

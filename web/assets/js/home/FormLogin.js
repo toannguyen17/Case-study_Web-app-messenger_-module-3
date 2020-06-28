@@ -19,6 +19,7 @@ FormLogin.prototype.init = function () {
         form.classList.add('was-validated');
         if (form.checkValidity() === false) {
             e.stopPropagation();
+            ToastPush.push('', 'Đăng nhập', 'Tài khoản hoặc mật khẩu không chính xác.');
         }else{
             this.login();
         }
@@ -34,6 +35,15 @@ FormLogin.prototype.login = function () {
         type: 'POST',
         data:  data_form,
         success: function(result){
+            if (result.status == 1){
+                $('.toast').remove();
+                ToastPush.push('', 'Đăng nhập', 'Đăng nhập thành công.');
+                location.reload();
+            }else{
+                result.errors.forEach(function(element) {
+                    ToastPush.push('', 'Đăng nhập', element);
+                });
+            }
             console.log(result);
         }
     });

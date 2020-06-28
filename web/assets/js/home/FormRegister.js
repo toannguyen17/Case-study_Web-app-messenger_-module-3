@@ -19,6 +19,7 @@ FormRegister.prototype.init = function () {
         form.classList.add('was-validated');
         if (form.checkValidity() === false) {
             e.stopPropagation();
+            ToastPush.push('', 'Đăng ký', 'Các trường đăng ký không hợp lệ.');
         }else{
             this.register();
         }
@@ -34,7 +35,15 @@ FormRegister.prototype.register = function () {
         type: 'POST',
         data:  data_form,
         success: function(result){
-            console.log(result);
+            if (result.status == 1){
+                $('.toast').remove();
+                ToastPush.push('', 'Đăng nhập', 'Đăng ký thành công.');
+                location.reload();
+            }else{
+                result.errors.forEach(function (element) {
+                    ToastPush.push('', 'Đăng nhập', element);
+                });
+            }
         }
     });
 }

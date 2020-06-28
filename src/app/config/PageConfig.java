@@ -8,4 +8,7 @@ public interface PageConfig {
 	String TYPE_CONTENT_JSON   = "application/json";
 	String TYPE_CONTENT_TEXT   = "text/html";
 	String TYPE_CONTENT_STREAM = "application/octet-stream";
+
+	String SESSION_ID       = "login_web";
+	String SESSION_RECALLER = "remember_web";
 }

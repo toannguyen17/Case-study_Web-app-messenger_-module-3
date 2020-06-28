@@ -27,6 +27,7 @@
 
     <script src="/assets/js/home/FormLogin.js"></script>
     <script src="/assets/js/home/FormRegister.js"></script>
+    <script src="/assets/js/util/Toasts.js"></script>
     <script src="/assets/js/home.js"></script>
 </head>
 <body>
@@ -61,5 +62,11 @@
         </section>
     </div>
 </section>
+
+<div aria-live="polite" aria-atomic="true" style="z-index: 2050; position: fixed; top: 70px; right: 10px; min-width: 300px;">
+    <div id="toast_push" style="position: absolute; top: 0; right: 0; min-width: 300px;">
+    </div>
+</div>
+
 </body>
 </html>

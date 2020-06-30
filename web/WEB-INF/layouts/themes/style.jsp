@@ -11,5 +11,3 @@
 <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="/assets/css/style.css">
-
-

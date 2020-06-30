@@ -1,7 +1,13 @@
 package app.model;
 
+import app.config.PageConfig;
+import app.dao.phone.IPhone;
+import app.dao.phone.PhoneDAO;
+import app.dao.user_info.IUserInfo;
+import app.dao.user_info.UserInfoDAO;
 import app.services.database.Model;
 
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -10,6 +16,9 @@ public class User extends Model {
 	private String password;
 	private String remember_token;
 	private String created_at;
+
+	private User_Info user_info;
+	private Phone phone;
 
 	public User(){
 	}
@@ -44,6 +53,22 @@ public class User extends Model {
 
 	public void setCreated_at(String created_at) {
 		this.created_at = created_at;
+	}
+
+	public User_Info getInfo() {
+		if (user_info == null){
+			IUserInfo userInfoDao = new UserInfoDAO();
+			user_info = userInfoDao.findByUserId(id);
+		}
+		return user_info;
+	}
+
+	public Phone getPhone() {
+		if (phone == null){
+			IPhone phoneDao = new PhoneDAO();
+			phone = phoneDao.findByUserId(id);
+		}
+		return phone;
 	}
 
 	@Override

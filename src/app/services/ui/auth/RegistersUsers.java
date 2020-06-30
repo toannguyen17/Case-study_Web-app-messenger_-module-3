@@ -141,6 +141,7 @@ public class RegistersUsers {
 				pstmt.execute();
 
 				connection.commit();
+				connection.setAutoCommit(true);
 
 				User user = new User();
 				user.find(users_id);

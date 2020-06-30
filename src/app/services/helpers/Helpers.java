@@ -1,32 +1,30 @@
 package app.services.helpers;
 
+import app.config.ValidPattern;
+
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Helpers {
 	public Helpers(){
 	}
 
-	public String random(int length) {
-		StringBuilder string = new StringBuilder();
-		int len;
-		while ((len = string.length()) < length) {
-			int size = length - len;
-			byte[] bytes = random_bytes(size);
+	public Map<String, String> crackPhone(String phone) {
+		Pattern pattern = Pattern.compile(ValidPattern.PHONE_PATTERN);
+		Matcher matcher = pattern.matcher(phone);
 
-			String encodedString = Base64.getEncoder().encodeToString(bytes);
-			encodedString = encodedString.replaceAll("[\\/\\+\\=]", "");
-			encodedString = encodedString.substring(0, size);
-
-			string.append(encodedString);
+		if (matcher.matches()) {
+			String region = matcher.group(1);
+			String number = matcher.group(2);
+			Map<String, String> map = new HashMap<>();
+			map.put("region", region);
+			map.put("number",  number);
+			return map;
 		}
-
-		return string.toString();
-	}
-
-	public byte[] random_bytes(int size) {
-		byte[] bytes = new byte[size];
-		new Random().nextBytes(bytes);
-		return bytes;
+		return null;
 	}
 }

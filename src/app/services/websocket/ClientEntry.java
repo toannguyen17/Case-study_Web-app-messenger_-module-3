@@ -1,8 +1,7 @@
 package app.services.websocket;
 
-import app.services.websocket.message.MessageJSON;
+import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -13,9 +12,13 @@ public class ClientEntry {
 	public ClientEntry(){
 	}
 
-	public ClientEntry(long id, Client client){
-		this.id = id;
+	public ClientEntry(Client client) {
+		this.id = client.auth.user().getId();
 		add(client);
+	}
+
+	public int size(){
+		return  clients.size();
 	}
 
 	public void add(Client client){
@@ -24,30 +27,16 @@ public class ClientEntry {
 
 	public void remove(Client client){
 		clients.remove(client);
-
-		if (clients.size() == 0){
-			destroy();
-		}
 	}
 
-	private void destroy(){
+	public void destroy(){
 		id = 0;
 		clients = null;
 	}
 
-	public void broadcast(MessageJSON msg) {
-		for (Client client : clients) {
-			try {
-				synchronized (client) {
-					client.getSession().getBasicRemote().sendText(msg.toString());
-				}
-			} catch (IOException e) {
-				clients.remove(client);
-				try {
-					client.getSession().close();
-				} catch (IOException e1) {
-				}
-			}
+	public void send(JSONObject json) {
+		for (Client client: clients) {
+			client.send(json);
 		}
 	}
 }

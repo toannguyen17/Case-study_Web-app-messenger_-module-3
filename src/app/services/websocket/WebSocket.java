@@ -1,6 +1,6 @@
 package app.services.websocket;
 
-import app.services.websocket.message.MessageJSON;
+import org.json.JSONObject;
 
 import java.util.*;
 
@@ -27,22 +27,49 @@ public class WebSocket {
 
 	// add client
 	public void add(Client client){
-		ClientEntry clientEntry = clients.get(client);
+		long id = client.auth.user().getId();
+		ClientEntry clientEntry = clients.get(id);
+
 		if (clientEntry == null){
-			ClientEntry newEntry = new ClientEntry();
-			//clients.put(client, newEntry)
+			ClientEntry newEntry = new ClientEntry(client);
+			clients.put(id, newEntry);
+		}else{
+			clientEntry.add(client);
 		}
 	}
 
 	// remove client
 	public void remove(Client client){
-		//clients.remove(client);
+		long id = client.auth.user().getId();
+		ClientEntry clientEntry = clients.get(id);
+		if (clientEntry != null){
+			clientEntry.remove(client);
+			if (clientEntry.size() == 0){
+				clients.remove(id);
+				clientEntry.destroy();
+			}
+		}
 	}
 
-	public void broadcast(MessageJSON msg) {
+	public void send(long id, JSONObject json) {
+		ClientEntry clientEntry = clients.get(id);
+		if (clientEntry != null){
+			clientEntry.send(json);
+		}
+	}
+
+	public void send(Client client, JSONObject json) {
+		long id = client.auth.user().getId();
+		ClientEntry clientEntry = clients.get(id);
+		if (clientEntry != null){
+			clientEntry.send(json);
+		}
+	}
+
+	public void broadcast(JSONObject json) {
 		List<ClientEntry> lists = new ArrayList<>(clients.values());
-		for (ClientEntry clientEntry : lists) {
-			clientEntry.broadcast(msg);
+		for (ClientEntry clientEntry: lists) {
+			clientEntry.send(json);
 		}
 	}
 }

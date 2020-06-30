@@ -1,20 +1,22 @@
 package app.services.websocket.message;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.websocket.DecodeException;
 import javax.websocket.Decoder;
 import javax.websocket.EndpointConfig;
 
-public class MessageDecoder implements Decoder.Text<MessageJSON> {
+public class MessageDecoder implements Decoder.Text<JSONObject> {
 	@Override
-	public MessageJSON decode(String message) throws DecodeException {
-		MessageJSON messageJSON = null;
+	public JSONObject decode(String message) throws DecodeException {
+		System.out.println("decode: " + message);
+		JSONObject messageJSON = null;
 		try {
-			messageJSON = new MessageJSON(message);
+			messageJSON = new JSONObject(message);
 		} catch (JSONException e) {
 			try {
-				messageJSON = new MessageJSON("{}");
+				messageJSON = new JSONObject();
 			} catch (JSONException d) {
 			}
 		}

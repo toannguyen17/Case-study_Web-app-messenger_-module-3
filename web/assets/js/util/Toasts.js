@@ -1,7 +1,7 @@
 var Toasts = Toasts || {};
 const  TOAST_PUSH_ID = 'toast_push';
 Toasts = function () {
-    this.toast = $(HASHTAG + TOAST_PUSH_ID);
+    this.toast = $('#' + TOAST_PUSH_ID);
     this.id = 0;
 }
 Toasts.prototype.push = function (icon, title, notification) {
@@ -23,7 +23,7 @@ Toasts.prototype.push = function (icon, title, notification) {
 
     this.toast.append(html);
 
-    let toast = $(HASHTAG+id_t);
+    let toast = $('#'+id_t);
     toast.toast({
         animation: true,
         autohide: true,

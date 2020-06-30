@@ -1,13 +1,17 @@
 package app.services.websocket.message;
 
-import javax.websocket.EncodeException;
+import org.json.JSONObject;
+
 import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
 
-public class MessageEncoder implements Encoder.Text<MessageJSON>{
+public class MessageEncoder implements Encoder.Text<JSONObject>{
 	@Override
-	public String encode(MessageJSON messageJSON) throws EncodeException {
-		return messageJSON.toString();
+	public String encode(JSONObject messageJSON) {
+		String encode = messageJSON.toString();
+		System.out.println("encode: " + messageJSON);
+		System.out.println("encode: " + encode);
+		return encode;
 	}
 
 	@Override

@@ -18,7 +18,6 @@ public class CookieHelpers {
 
 			for (int i = 0; i < cookieMat2.length; i++) {
 				String cok = cookieMat2[i];
-				System.out.println("T"+ cok +"T");
 				Pattern pattern = Pattern.compile("^(.+?)=(.+)$");
 
 				Matcher matcher = pattern.matcher(cok);

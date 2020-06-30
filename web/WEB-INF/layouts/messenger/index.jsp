@@ -20,56 +20,37 @@
     <meta name="author" content="RedT">
 
     <title>${requestScope["title"].getElement()}></title>
-    <jsp:include page="../themes/style.jsp"></jsp:include>
+
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.png" />
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.min.css">
+    <script src="${pageContext.request.contextPath}/assets/jquery/jquery-3.5.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/bootstrap/popper.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/app.css">
+
+    <script src="${pageContext.request.contextPath}/assets/js/messengers/Messages.js"></script>
+
+    <script src="${pageContext.request.contextPath}/assets/js/messengers/Connection.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/messengers/App.js"></script>
+
+    <script src="${pageContext.request.contextPath}/assets/js/util/Toasts.js"></script>
+
+    <script src="${pageContext.request.contextPath}/assets/js/util/Helpers.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/util/Dropdown.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/messengers/storeElement.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/messengers/MessengerManager.js"></script>
+
+
+    <script src="${pageContext.request.contextPath}/assets/js/app.js"></script>
 </head>
 <body>
-<header class="fixed-top shadow-sm bg-light">
-    <div class="reg_box">
-        <nav class="navbar navbar-expand-sm navbar-light">
-            <div class="navbar-brand">
-                <div class="logo-header">
-                    <jsp:include page="../themes/icons/logo.jsp"></jsp:include>
-                </div>
-                Messenger
-            </div>
-
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <div class="mr-auto"></div>
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+<div style="overflow: initial;">
+    <div class="page_box">
+        <jsp:include page="include/left.jsp"></jsp:include>
+        <jsp:include page="include/right.jsp"></jsp:include>
     </div>
-</header>
-<section class="box-content">
-    <section class="container-fluid row">
-        <article class="col-md-3">12</article>
-        <section class="col-md-9">12</section>
-    </section>
-</section>
+</div>
 </body>
 </html>

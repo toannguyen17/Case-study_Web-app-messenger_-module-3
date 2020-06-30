@@ -27,11 +27,12 @@ CREATE TABLE `users` (
  */
 DROP TABLE IF EXISTS `user_infos`;
 CREATE TABLE `user_infos` (
-    `id`         BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `user_id`    BIGINT(20) UNSIGNED NOT NULL UNIQUE,
-    `last_name`  VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `first_name` VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `updated_at` TIMESTAMP NULL DEFAULT NULL
+    `id`               BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `user_id`          BIGINT(20) UNSIGNED NOT NULL UNIQUE,
+    `last_name`        VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `first_name`       VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `avatar_extension` VARCHAR(6) COLLATE utf8mb4_unicode_ci NULL DEFAULT '',
+    `updated_at`       TIMESTAMP NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
@@ -78,7 +79,7 @@ CREATE TABLE `my_contacts` (
     `id`         BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `user_id`    BIGINT(20) UNSIGNED NOT NULL,
     `contact_id` BIGINT(20) UNSIGNED NOT NULL,
-    `delete`     TINYINT(1) UNSIGNED NOT NULL,
+    `delete`     TINYINT(1) UNSIGNED NULL DEFAULT 0,
     `created_at` TIMESTAMP  NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -90,7 +91,8 @@ DROP TABLE IF EXISTS `messages`;
 CREATE TABLE `messages` (
     `id`         BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `contact_id` BIGINT(20) UNSIGNED NOT NULL,
-    `delete`     TINYINT(2) UNSIGNED NOT NULL,
+    `user_id`    BIGINT(20) UNSIGNED NOT NULL,
+    `delete`     TINYINT(2) UNSIGNED NULL DEFAULT 0,
     `created_at` TIMESTAMP  NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

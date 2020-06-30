@@ -1,6 +1,7 @@
 package app.services.database;
 
 import app.config.SQL;
+import app.model.User_Info;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,9 +25,9 @@ public abstract class Model {
 	}
 
 	// Find by ID
-	public ResultSet find(long id){
+	public void find(long id){
 		String table = getTable();
-		if (table == null) return null;
+		if (table == null) return;
 
 		Connection connection = DatabaseManager.getInstance().getConnection();
 		ResultSet result = null;
@@ -41,8 +42,7 @@ public abstract class Model {
 			}
 		} catch (SQLException throwables) {
 		}
-		return result;
 	}
 
-	abstract protected void setData(ResultSet data);
+	abstract public void setData(ResultSet data);
 }

@@ -1,10 +1,11 @@
 package app.services.websocket;
 
+import app.controller.websocket.API;
 import app.services.auth.Auth;
 import app.services.auth.SessionGuard;
 import app.services.helpers.CookieHelpers;
 import app.services.websocket.message.*;
-import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
@@ -16,11 +17,10 @@ import java.util.Map;
 
 @ServerEndpoint(value = "/websocket", encoders = MessageEncoder.class, decoders = MessageDecoder.class, configurator = EndpointConfigurator.class)
 public class Client {
-	public static WebSocket webSocket = WebSocket.getInstance();
 
-	private Auth auth;
+	public Auth auth;
 
-	private Session session;
+	public Session session;
 
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig config) {
@@ -38,43 +38,66 @@ public class Client {
 		}
 
 		auth = new SessionGuard(httpSession, resultCookie);
-		if (auth.check()){
-			//
-		}else{
+
+		if (auth.check()) {
+			WebSocket webSocket = WebSocket.getInstance();
+			webSocket.add(this);
+			JSONObject json = new JSONObject();
+			json.put("action", "me_id");
+			json.put("me",      auth.user().getId());
+			send(json);
+		} else {
 			auth = null;
-			try {
-				session.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
 	@OnClose
 	public void onClose() {
-		System.out.println("----------END---------");
-		webSocket.remove(this);
+		if (auth != null){
+			WebSocket webSocket = WebSocket.getInstance();
+			webSocket.remove(this);
+			auth = null;
+		}
 	}
 
 	@OnMessage
-	public void onMessage(MessageJSON message) {
-		System.out.println("----------OnMessage---------");
+	public void onMessage(JSONObject message) {
+		if (auth == null)
+			return;
 
-		boolean checkAction = message.isNull("action");
-		if (checkAction == true) {
-			try {
-				String action = message.getString("action");
-			} catch (JSONException e) {
-			}
+		System.out.println("on messenger");
+		if (!auth.check() || !session.isOpen()){
+			System.out.println("No auth");
+		}else{
+			System.out.println("Auth");
+			API controller = API.getInstance();
+			controller.request(message, this);
 		}
 	}
 
 	@OnError
-	public void onError(Throwable t) throws Throwable {
+	public void onError(Throwable t) {
 		System.out.println("Chat Error: " + t.toString());
 	}
 
-	public Session getSession() {
-		return session;
+	public void send(JSONObject json){
+		if (auth == null || !session.isOpen())
+			return;
+
+		System.out.println(session.isOpen());
+
+		try {
+			synchronized (Client.class) {
+				session.getBasicRemote().sendObject(json);
+			}
+		} catch (IOException | EncodeException e) {
+			e.printStackTrace();
+			WebSocket webSocket = WebSocket.getInstance();
+			webSocket.remove(this);
+			try {
+				session.close();
+			} catch (IOException e1) {
+			}
+		}
 	}
 }

@@ -7,4 +7,5 @@ public interface View {
 	void setHeader(String key, String value);
 	void setContentLength(int length);
 	void get();
+	void setAttribute(String key, Parameter parameter);
 }

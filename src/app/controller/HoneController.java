@@ -1,12 +1,16 @@
 package app.controller;
 
+import app.config.PageConfig;
 import app.config.ViewConfig;
+import app.model.User;
+import app.model.User_Info;
 import app.services.auth.Auth;
 import app.services.auth.SessionGuard;
 import app.services.database.DatabaseManager;
 import app.services.helpers.Helpers;
 import app.services.helpers.Str;
 import app.services.view.ForwardView;
+import app.services.view.Parameter;
 import app.services.view.View;
 
 import javax.servlet.*;
@@ -28,6 +32,9 @@ import javax.servlet.http.*;
 
 		String layout = null;
 		if (auth.check()){
+			User_Info user_info = auth.user().getInfo();
+			Parameter<User_Info> parameter = new Parameter(user_info);
+			view.setAttribute("user", parameter);
 			layout = ViewConfig.PATH + ViewConfig.HOME_INDEX_USERS;
 		}else{
 			layout = ViewConfig.PATH + ViewConfig.HOME_INDEX_GUEST;

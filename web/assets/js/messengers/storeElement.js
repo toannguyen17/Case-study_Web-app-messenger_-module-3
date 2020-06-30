@@ -43,6 +43,10 @@ var MessengerGroup = function (me= false) {
 };
 
 MessengerGroup.prototype.createContent = function (message) {
+    if (message.avatar != void 0){
+        this.el_avatar.setAttribute("src", message.avatar);
+    }
+
     let content = new MessengerContent(message);
     return content.getElement();
 }

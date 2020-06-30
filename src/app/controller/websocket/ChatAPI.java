@@ -72,6 +72,8 @@ public class ChatAPI implements SocketAPI {
 				IMessager iMessager = new MessagerDAO();
 				List<Message> list = iMessager.getMessager(contact.getId(), 0, 20, "DESC");
 
+				long id = client.auth.user().getId();
+
 				list.forEach(e -> {
 					MessageText messageText = e.getText();
 					if (messageText != null){
@@ -80,6 +82,10 @@ public class ChatAPI implements SocketAPI {
 						jsonMess.put("text", messageText.getText());
 						jsonMess.put("time", e.getCreated_at());
 						jsonMess.put("user_id", e.getUser_id());
+
+						if (e.getUser_id() != id){
+							jsonMess.put("avatar", user_info.getUrlAvatar());
+						}
 						chatMessager.append("chats", jsonMess);
 					}
 				});
@@ -153,6 +159,7 @@ public class ChatAPI implements SocketAPI {
 			jsonText.put("time", message.getCreated_at());
 			jsonText.put("text", text);
 			jsonText.put("user_id", id);
+			jsonText.put("avatar", user_info.getUrlAvatar());
 
 			chatMessager.put("messenger", jsonText);
 

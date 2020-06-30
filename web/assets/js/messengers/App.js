@@ -13,6 +13,27 @@ App.prototype.init = function(){
     // el
     this.el_list_contact = $('.list_contact');
     this.el_list_search  = $('.list_search');
+
+    let self = this;
+
+    this.ManagerContact = function () {
+        this.el_list_contact = self.el_list_contact;
+    }
+
+    this.ManagerContact.prototype.prepend = function (contact) {
+        this.el_list_contact.prepend(this.createElement(contact));
+    }
+
+    this.ManagerContact.prototype.append = function (contact) {
+        this.el_list_contact.append(this.createElement(contact));
+    }
+
+    this.ManagerContact.prototype.createElement = function (contact) {
+        let content = new ContactItem(contact);
+        return content.getElement();
+    }
+
+    this.ManagerContact = new this.ManagerContact;
 }
 
 App.prototype.regEvent = function(){

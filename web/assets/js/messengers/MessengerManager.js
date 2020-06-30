@@ -64,7 +64,16 @@ MessengerManager.prototype.loadChats = function (data) {
 }
 
 MessengerManager.prototype.onRealMess = function (data) {
-    this.createContentEl(data.messenger);
+    if (data.add_contact != void 0){
+        console.log(data.user)
+        AppMessenger.ManagerContact.prepend(data.user);
+    }
+
+    if (data.messenger.user_id == AppMessenger.me_id || data.messenger.user_id == this.user_id){
+        this.createContentEl(data.messenger);
+    }else{
+        this.pushNotification(data);
+    }
 }
 
 MessengerManager.prototype.createContentEl = function (message) {
@@ -79,3 +88,13 @@ MessengerManager.prototype.createContentEl = function (message) {
     this.group.append(message);
 }
 
+MessengerManager.prototype.pushNotification = function (data) {
+    let message = data.messenger.text;
+    if (message.length > 40){
+        message = message.substring(0, 40) + "...";
+    }
+
+    let name = data.user.last_name + ' ' + data.user.first_name;
+
+    ToastPush.push('', name, message);
+}

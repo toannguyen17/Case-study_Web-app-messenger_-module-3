@@ -94,13 +94,26 @@ public class ChatAPI implements SocketAPI {
 		user.find(to_id);
 
 		if (user.getId() != 0) {
+			boolean add_contact = false;
 			User_Info user_info = client.auth.user().getInfo();
+
+			ChatMessager chatMessager_to = null;
+
 			ChatMessager chatMessager = new ChatMessager(user_info);
 			chatMessager.put("to",   to_id);
 			chatMessager.put("from", id);
 
 			if (contact == null) {
 				// Tạo liên hệ
+				add_contact = true;
+
+				User_Info user_info_to = user.getInfo();
+				chatMessager_to = new ChatMessager(user_info_to);
+
+				chatMessager.put("to",   to_id);
+				chatMessager.put("from", id);
+
+				chatMessager_to.put("add_contact", true);
 				chatMessager.put("add_contact", true);
 				contact = new Contact();
 
@@ -144,8 +157,15 @@ public class ChatAPI implements SocketAPI {
 			chatMessager.put("messenger", jsonText);
 
 			WebSocket webSocket = WebSocket.getInstance();
+
 			webSocket.send(to_id, chatMessager);
-			webSocket.send(id,    chatMessager);
+
+			if (add_contact){
+				chatMessager_to.put("messenger", jsonText);
+				webSocket.send(id, chatMessager_to);
+			}else{
+				webSocket.send(id, chatMessager);
+			}
 		}
 	}
 

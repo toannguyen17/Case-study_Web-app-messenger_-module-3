@@ -42,7 +42,6 @@
     <script src="${pageContext.request.contextPath}/assets/js/messengers/storeElement.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/messengers/MessengerManager.js"></script>
 
-
     <script src="${pageContext.request.contextPath}/assets/js/app.js"></script>
 </head>
 <body>
@@ -50,6 +49,10 @@
     <div class="page_box">
         <jsp:include page="include/left.jsp"></jsp:include>
         <jsp:include page="include/right.jsp"></jsp:include>
+    </div>
+</div>
+<div aria-live="polite" aria-atomic="true" style="z-index: 2050; position: fixed; top: 70px; right: 10px; min-width: 300px;">
+    <div id="toast_push" style="position: absolute; top: 0; right: 0; min-width: 300px;">
     </div>
 </div>
 </body>

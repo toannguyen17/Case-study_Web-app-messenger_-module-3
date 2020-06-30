@@ -83,3 +83,40 @@ MessengerContent.prototype.getElement = function () {
     return this.el;
 }
 
+// ItemContact
+var ContactItem = function (contact) {
+    console.log(contact, this)
+    this.user_id = contact.id;
+    this.el = document.createElement('div');
+    this.el.setAttribute("class", "contact d-flex align-items-center pd-6-10 c_pointer");
+
+    let name = contact.last_name + ' ' + contact.first_name;
+
+    this.el.innerHTML = '<div>\n' +
+        '<img class="rounded-circle" alt="" src="' + contact.avatar +'" height="50" width="50">\n' +
+        '</div>\n' +
+        '<div class="contact_sub">\n' +
+        '<div class="text-truncate contact_name">\n' +
+        '<span>' + name + '</span>\n' +
+        '</div>\n' +
+        '<div class="d-flex align-items-center justify-content-left contact_sub_text">\n' +
+        '<span class="text-truncate">\n' +
+
+        '</span>\n' +
+        '<div class="ml-1 mr-1"></div>\n' +
+        '<span class="contact_sub_time"></span>\n' +
+        '</div>\n' +
+        '</div>';
+
+    this.el.addEventListener('click', () =>{
+        let message_uid = AppMessenger.managerMess.user_id;
+        if (this.user_id != message_uid){
+            let message = new Messages.chat(this.user_id);
+            AppMessenger.send(message);
+        }
+    });
+}
+
+ContactItem.prototype.getElement = function () {
+    return this.el;
+}

@@ -73,7 +73,13 @@ MessengerManager.prototype.onRealMess = function (data) {
     if (data.messenger.user_id == AppMessenger.me_id || data.messenger.user_id == this.user_id){
         this.createContentEl(data.messenger);
 
-        if (data.messenger.user_id == AppMessenger.me_id || 1){
+        let parent  = this.el_messangers[0].parentElement;
+        let content = this.el_messangers[0];
+
+        let allowScrollBotton = content.offsetHeight - parent.offsetHeight - 100;
+        let curentScroll      = parent.scrollTop;
+
+        if (allowScrollBotton > 100 && curentScroll >= allowScrollBotton){
             this.scrollTop(this.scrollBottonPoint());
         }
     }else{

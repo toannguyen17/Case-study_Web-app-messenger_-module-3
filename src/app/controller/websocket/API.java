@@ -38,6 +38,8 @@ public class API implements SocketAPI {
 						break;
 
 					case "contact":
+						SocketAPI contactAPI = ContactAPI.getInstance();
+						contactAPI.request(message, client);
 						break;
 
 					case "chat":

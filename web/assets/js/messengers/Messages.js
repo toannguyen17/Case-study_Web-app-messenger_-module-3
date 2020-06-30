@@ -20,3 +20,13 @@ Messages.loadMessenger = function (user_id, last_id) {
     this.user_id = user_id;
     this.last_id = last_id;
 }
+
+Messages.loadContact = function (type, data = null) {
+    this.action = "contact";
+    this.type   = type;
+    if (data != null){
+        this.data = data;
+    }
+}
+
+

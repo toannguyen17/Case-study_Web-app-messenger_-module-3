@@ -1,5 +1,7 @@
 package app.model;
 
+import app.dao.user_info.IUserInfo;
+import app.dao.user_info.UserInfoDAO;
 import app.services.database.Model;
 
 import java.sql.ResultSet;
@@ -11,6 +13,8 @@ public class MyContact extends Model {
     private long   contact_id;
 	private int    delete;
 	private String created_at;
+
+	private User user;
 
 	public long getId() {
 		return id;
@@ -51,6 +55,14 @@ public class MyContact extends Model {
 	public void setCreated_at(String created_at) {
 		this.created_at = created_at;
 	}
+
+	public User getUser(){
+		if (user == null){
+			user = new User();
+			user.find(user_id);
+		}
+		return user;
+	};
 
 	@Override
 	public void setData(ResultSet data) {

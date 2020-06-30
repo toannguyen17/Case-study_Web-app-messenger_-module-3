@@ -16,7 +16,12 @@ App.prototype.init = function(){
 
     let self = this;
 
+    // ManagerContact
     this.ManagerContact = function () {
+        this.start = 0;
+        this.kmess = 20;
+        this.total = 0;
+
         this.el_list_contact = self.el_list_contact;
     }
 
@@ -31,6 +36,13 @@ App.prototype.init = function(){
     this.ManagerContact.prototype.createElement = function (contact) {
         let content = new ContactItem(contact);
         return content.getElement();
+    }
+
+    this.ManagerContact.prototype.getContact = function(message){
+        this.total = message.pagination.total;
+        message.contacts.forEach(function (contact) {
+            this.prepend(contact);
+        }.bind(this));
     }
 
     this.ManagerContact = new this.ManagerContact;
@@ -80,8 +92,13 @@ App.prototype.onmessage = function(message){
     console.log(message)
     let action = message.action;
     switch (action) {
+        case "contacts":
+            this.reqContact(message);
+            break;
+
         case "me_id":
             AppMessenger.me_id = message.me;
+            AppMessenger.onStart();
             break;
 
         case "chat":
@@ -105,9 +122,27 @@ App.prototype.onmessage = function(message){
     }
 }
 
+App.prototype.onStart = function(){
+    let getContact = new Messages.loadContact('get');
+    getContact.start = 0;
+    this.send(getContact);
+}
+
+App.prototype.reqContact = function(message){
+    if (message.type != void 0){
+        let type = message.type;
+        switch (type) {
+            case "get":
+                this.ManagerContact.getContact(message);
+                break;
+        }
+    }
+}
+
 App.prototype.send = function(object){
     this.connection.socket.send(JSON.stringify(object));
 }
+
 
 App.prototype.logout = function(){
     this.send(Messages.logout);

@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="_6ynl _673w head_shadow">
 	<div class="d-flex align-items-center mr-auto overflow-hidden ml-3">
-		<img id="chat_h_avatar" class="rounded-circle" alt="" src="/user.jpg" height="40" width="40">
+		<img id="chat_h_avatar" class="rounded-circle" alt="" src="" height="40" width="40">
 		<div id="chat_h_name" class="contact_sub text-truncate" style="font-weight: bold;font-size: 16px;">
 		</div>
 	</div>

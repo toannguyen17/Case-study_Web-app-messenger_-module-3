@@ -9,8 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyContactDAO implements IMyContact {
+	private static final String SQL_GET_PAGE = "SELECT * FROM `my_contacts` WHERE `user_id` = ? " +
+			"ORDER BY `id` DESC LIMIT ?, 20;";
+
+	private static final String SQL_ALL_BY_CID_NOT_UID = "SELECT my_contacts.* FROM my_contacts\n" +
+			"INNER JOIN contacts ON contacts.id = my_contacts.contact_id\n" +
+			"WHERE  contacts.id = ? AND my_contacts.user_id != ? ;";
+
 	private static final String SQL_INSERT = "INSERT INTO `my_contacts` (`user_id`, `contact_id`, `delete`, `created_at`) VALUE (?,?,?,?);";
 
+	private static final String SQL_COUNT_BY_UID         = "SELECT COUNT(*) as total FROM `my_contacts` WHERE `user_id` = ?;";
 
 	private static final String SQL_SELECT_BY_ID         = "SELECT * FROM `my_contacts` WHERE `id` = ?;";
 	private static final String SQL_SELECT_BY_USER_ID    = "SELECT * FROM `my_contacts` WHERE `user_id` = ?;";
@@ -56,6 +64,28 @@ public class MyContactDAO implements IMyContact {
 	}
 
 	@Override
+	public List<MyContact> findByUserId(long user_id, int start) {
+		List<MyContact> list = new ArrayList<>();
+		Connection connection = DatabaseManager.getInstance().getConnection();
+
+		try {
+			PreparedStatement rpstm = connection.prepareStatement(SQL_GET_PAGE);
+			rpstm.setLong(1, user_id);
+			rpstm.setInt(2, start);
+			ResultSet result = rpstm.executeQuery();
+			while (result.next()) {
+				MyContact myContact = new MyContact();
+				myContact.setData(result);
+				list.add(myContact);
+			}
+			return list;
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
 	public List<MyContact> findByContactId(long contact_id) {
 		List<MyContact> list = new ArrayList<>();
 		Connection connection = DatabaseManager.getInstance().getConnection();
@@ -63,6 +93,28 @@ public class MyContactDAO implements IMyContact {
 		try {
 			PreparedStatement rpstm = connection.prepareStatement(SQL_SELECT_BY_CONTACT_ID);
 			rpstm.setLong(1, contact_id);
+			ResultSet result = rpstm.executeQuery();
+			while (result.next()) {
+				MyContact myContact = new MyContact();
+				myContact.setData(result);
+				list.add(myContact);
+			}
+			return list;
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<MyContact> findByContactIdNotUser(long contact_id, long user_id) {
+		List<MyContact> list = new ArrayList<>();
+		Connection connection = DatabaseManager.getInstance().getConnection();
+
+		try {
+			PreparedStatement rpstm = connection.prepareStatement(SQL_ALL_BY_CID_NOT_UID);
+			rpstm.setLong(1, contact_id);
+			rpstm.setLong(2, user_id);
 			ResultSet result = rpstm.executeQuery();
 			while (result.next()) {
 				MyContact myContact = new MyContact();
@@ -101,5 +153,23 @@ public class MyContactDAO implements IMyContact {
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
+	}
+
+	@Override
+	public int countByUserId(long user_id) {
+		int total = 0;
+		Connection connection = DatabaseManager.getInstance().getConnection();
+
+		try {
+			PreparedStatement rpstm = connection.prepareStatement(SQL_COUNT_BY_UID);
+			rpstm.setLong(1, user_id);
+			ResultSet result = rpstm.executeQuery();
+			if (result.next()){
+				total = result.getInt(1);
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+		return total;
 	}
 }

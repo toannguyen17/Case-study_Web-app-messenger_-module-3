@@ -36,7 +36,7 @@ MessengerManager.prototype.onChat = function (data) {
         this.newContact(data);
 
     }else if(data.chats != void 0){
-        // tải lại cuộc chò chuyện cũ
+        // tải lại cuộc trò chuyện cũ
         this.newContact(data);
         this.loadChats(data.chats);
 
@@ -61,6 +61,7 @@ MessengerManager.prototype.loadChats = function (data) {
         let message = data[i];
         this.createContentEl(message);
     }
+    this.scrollTop(this.scrollBottonPoint());
 }
 
 MessengerManager.prototype.onRealMess = function (data) {
@@ -71,6 +72,10 @@ MessengerManager.prototype.onRealMess = function (data) {
 
     if (data.messenger.user_id == AppMessenger.me_id || data.messenger.user_id == this.user_id){
         this.createContentEl(data.messenger);
+
+        if (data.messenger.user_id == AppMessenger.me_id || 1){
+            this.scrollTop(this.scrollBottonPoint());
+        }
     }else{
         this.pushNotification(data);
     }
@@ -98,3 +103,19 @@ MessengerManager.prototype.pushNotification = function (data) {
 
     ToastPush.push('', name, message);
 }
+
+
+MessengerManager.prototype.scrollTop = function (point) {
+    this.el_messangers[0].parentElement.scrollTop = point;
+}
+
+MessengerManager.prototype.scrollBottonPoint = function () {
+    let parent    = this.el_messangers[0].parentElement;
+    let mess = this.el_messangers[0];
+
+    let parentH = parent.offsetHeight;
+    let messH   = mess.offsetHeight;
+
+    return messH-parentH;
+}
+

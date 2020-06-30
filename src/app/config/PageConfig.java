@@ -4,7 +4,9 @@ public interface PageConfig {
 	String TITLE           = "Messenger - CodeGym";
 	String DESCRIPTION     = "Ứng dụng chat trực tuyến - sản phẩm case study của Nguyễn Văn Toản";
 
-	String ROOT_PATH       = "C:\\RedT\\School\\Module3\\Case-study\\web";
+	String ROOT_PATH       = "C:\\RedT\\School\\Module3\\Case-study\\out\\artifacts\\Case_study_war_exploded";
+	//String ROOT_PATH       = "C:\\RedT\\School\\Module3\\Case-study\\web";
+
 	String IMAGES_PATH     = "images";
 	String AVATAR_PATH     = "avatars";
 

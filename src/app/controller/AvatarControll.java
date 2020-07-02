@@ -48,8 +48,6 @@ public class AvatarControll extends HttpServlet {
 			if (oldEXT != null && oldEXT.length() > 1){
 				String urlOLD = this.getFolderUpload().getAbsolutePath() + File.separator + user_id + "." + oldEXT;
 				File check = new File(urlOLD);
-				System.out.println(check.exists());
-				System.out.println(urlOLD);
 				if (check.exists()){
 					check.delete();
 				}

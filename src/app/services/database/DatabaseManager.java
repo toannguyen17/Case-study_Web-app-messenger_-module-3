@@ -16,6 +16,7 @@ public class DatabaseManager {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch(ClassNotFoundException e) {
+			e.printStackTrace();
 			System.out.println("driver mysql not found!");
 		}
 

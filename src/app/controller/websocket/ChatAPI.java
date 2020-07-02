@@ -39,8 +39,6 @@ public class ChatAPI implements SocketAPI {
 				long id        = client.auth.user().getId();
 				long user_id   = mesg.getLong("user_id");
 
-				System.out.println(user_id);
-
 				IContact iContact = new ContactDAO();
 
 				Contact contact = iContact.findSingle(id, user_id);
@@ -55,7 +53,7 @@ public class ChatAPI implements SocketAPI {
 					newContact(client, user_id, contact);
 				}
 			} catch (JSONException e) {
-				System.out.println(e);
+				e.printStackTrace();
 			}
 		}
 	}
@@ -68,7 +66,7 @@ public class ChatAPI implements SocketAPI {
 			ChatMessager chatMessager = new ChatMessager(user_info);
 
 			if (contact != null){
-				System.out.println(contact.getId());
+
 				IMessager iMessager = new MessagerDAO();
 				List<Message> list = iMessager.getMessager(contact.getId(), 0, 20, "DESC");
 

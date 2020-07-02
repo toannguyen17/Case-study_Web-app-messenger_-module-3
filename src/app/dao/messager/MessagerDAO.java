@@ -22,7 +22,6 @@ public class MessagerDAO implements IMessager {
 		try {
 			PreparedStatement rpstm = connection.prepareStatement(SQL_GET_LIST_MESSAGER);
 			rpstm.setLong(1, contact_id);
-			System.out.println(rpstm);
 			ResultSet result = rpstm.executeQuery();
 			while (result.next()) {
 				Message message = new Message();

@@ -46,6 +46,7 @@ public class ContactAPI implements SocketAPI {
 						break;
 				}
 			}catch (JSONException e){
+				e.printStackTrace();
 			}
 		}
 	}

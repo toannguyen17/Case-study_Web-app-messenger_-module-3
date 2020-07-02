@@ -40,7 +40,8 @@ public abstract class Model {
 			if (result.next()){
 				setData(result);
 			}
-		} catch (SQLException throwables) {
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 

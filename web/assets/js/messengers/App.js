@@ -5,6 +5,7 @@ const CLASS_LIST_CONTACT   = '.list_contact';
 const CLASS_LIST_SEARCH    = '.list_search';
 
 App.prototype.init = function(){
+    this.load_old = true;
     this.connectServer();
     this.regEvent();
 
@@ -46,6 +47,20 @@ App.prototype.init = function(){
     }
 
     this.ManagerContact = new this.ManagerContact;
+
+    this.container_contact       = $('#container_contact');
+    this.container_contact_child = this.container_contact.children()[0];
+
+    this.container_contact.scroll(function(){
+        let h_contact = this.container_contact.height();
+        let h_contact_child = this.container_contact_child.offsetHeight;
+
+        let onLoad = h_contact_child - h_contact - 30;
+        if(this.container_contact.scrollTop() >= onLoad && this.load_old) {
+            this.load_old = false;
+            console.log("load old contact");
+        }
+    }.bind(this));
 }
 
 App.prototype.regEvent = function(){
@@ -66,13 +81,13 @@ App.prototype.regEvent = function(){
 
 App.prototype.regEventSearch = function(){
     $(CLASS_SEARCH_CONTACT).on('input', function () {
+        AppMessenger.el_list_search.children().remove();
         let value = this.value;
         let check = Helpers.validPhone(value);
         if (check){
             let message = new Messages.search(value);
             AppMessenger.send(message);
         }else{
-            AppMessenger.el_list_search.children().remove();
             AppMessenger.el_list_search.addClass("d-none");
             AppMessenger.el_list_contact.removeClass("d-none");
         }
@@ -88,7 +103,17 @@ App.prototype.connectServer = function(){
 }
 
 App.prototype.onmessage = function(message){
-    message = this.connection._decodeMessage(message);
+    new Promise((resolve, reject) => {
+        let arrayBuffer = message.arrayBuffer();
+        resolve(arrayBuffer);
+    }).then(result => {
+        message = new TextDecoder().decode(result);
+        message = this.connection._decodeMessage(message);
+        this.onActionReponse(message);
+    });
+}
+
+App.prototype.onActionReponse = function(message){
     console.log(message)
     let action = message.action;
     switch (action) {
@@ -140,9 +165,9 @@ App.prototype.reqContact = function(message){
 }
 
 App.prototype.send = function(object){
-    this.connection.socket.send(JSON.stringify(object));
+    let data = JSON.stringify(object);
+    this.connection.socket.send(new TextEncoder().encode(data));
 }
-
 
 App.prototype.logout = function(){
     this.send(Messages.logout);

@@ -1,4 +1,5 @@
 var MessengerManager = function () {
+    this.open_load_old = false;
     this.user_id = null;
     this.group   = null;
 
@@ -18,6 +19,16 @@ var MessengerManager = function () {
     this.el_btn_send.on('click', ()=>{
         this.send();
     });
+
+    this.container_mesenger = $(this.el_messangers[0].parentElement);
+
+    this.container_mesenger.scroll(function(){
+        if(this.container_mesenger.scrollTop() <= 30 && this.open_load_old) {
+            this.open_load_old = false;
+            console.log("load old mess");
+            // loadM();
+        }
+    }.bind(this));
 };
 
 MessengerManager.prototype.send = function () {

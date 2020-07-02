@@ -47,8 +47,8 @@ public class SearchAPI implements SocketAPI {
 						}
 					}
 				}
-				System.out.println(data);
 			} catch (JSONException e) {
+				e.printStackTrace();
 			}
 		}
 	}

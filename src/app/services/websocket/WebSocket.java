@@ -1,5 +1,6 @@
 package app.services.websocket;
 
+import app.model.User;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -27,7 +28,7 @@ public class WebSocket {
 
 	// add client
 	public void add(Client client){
-		long id = client.auth.user().getId();
+		long id = client.id;
 		ClientEntry clientEntry = clients.get(id);
 
 		if (clientEntry == null){
@@ -40,13 +41,19 @@ public class WebSocket {
 
 	// remove client
 	public void remove(Client client){
-		long id = client.auth.user().getId();
-		ClientEntry clientEntry = clients.get(id);
-		if (clientEntry != null){
-			clientEntry.remove(client);
-			if (clientEntry.size() == 0){
-				clients.remove(id);
-				clientEntry.destroy();
+		if (client != null && client.auth != null){
+			User user = client.auth.user();
+			if (user == null)
+				return;
+
+			long id = client.id;
+			ClientEntry clientEntry = clients.get(id);
+			if (clientEntry != null){
+				clientEntry.remove(client);
+				if (clientEntry.size() == 0){
+					clients.remove(id);
+					clientEntry.destroy();
+				}
 			}
 		}
 	}
@@ -59,7 +66,7 @@ public class WebSocket {
 	}
 
 	public void send(Client client, JSONObject json) {
-		long id = client.auth.user().getId();
+		long id = client.id;
 		ClientEntry clientEntry = clients.get(id);
 		if (clientEntry != null){
 			clientEntry.send(json);

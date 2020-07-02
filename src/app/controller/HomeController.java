@@ -18,7 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 @WebServlet(name = "Home", urlPatterns = "/index.jsp")
- public class HoneController extends HttpServlet {
+ public class HomeController extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {

@@ -23,13 +23,10 @@ public class API implements SocketAPI {
 
 	@Override
 	public void request(JSONObject message, Client client) {
-		System.out.println("Controller");
-		System.out.println(message);
 		boolean checkAction = message.isNull("action");
 		if (checkAction != true) {
 			try {
 				String action = message.getString("action");
-				System.out.println("Action: " +action);
 
 				switch (action){
 					case "search":
@@ -43,7 +40,6 @@ public class API implements SocketAPI {
 						break;
 
 					case "chat":
-						System.out.println("user_id C");
 						SocketAPI chatAPI = ChatAPI.getInstance();
 						chatAPI.request(message, client);
 						break;
@@ -53,6 +49,7 @@ public class API implements SocketAPI {
 						break;
 				}
 			} catch (JSONException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -64,7 +61,8 @@ public class API implements SocketAPI {
 
 		client.send(json);
 		try {
-			client.session.close();
+			if (client.session != null)
+				client.session.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

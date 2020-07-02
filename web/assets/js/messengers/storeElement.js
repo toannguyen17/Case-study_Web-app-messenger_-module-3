@@ -117,6 +117,7 @@ var ContactItem = function (contact) {
         if (this.user_id != message_uid){
             let message = new Messages.chat(this.user_id);
             AppMessenger.send(message);
+            AppMessenger.managerMess.open_load_old = true;
         }
     });
 }

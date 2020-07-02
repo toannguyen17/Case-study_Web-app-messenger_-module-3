@@ -82,7 +82,7 @@ public class Message extends Model {
 			contact_id = data.getLong("contact_id");
 			user_id = data.getLong("user_id");
 			delete = data.getInt("delete");
-			System.out.println(delete);
+
 			created_at = data.getString("created_at");
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();

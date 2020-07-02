@@ -15,36 +15,32 @@ Connection.prototype.connect = function () {
         return;
     }
 
-    this.socket.onopen    = this._onSocketConnect;
-    this.socket.onclose   = this._onSocketDisconnect;
-    this.socket.onmessage = this._onSocketData;
-    this.socket.onerror   = this._onSocketError;
+    this.socket.onopen    = this._onOpen;
+    this.socket.onclose   = this._onClose;
+    this.socket.onmessage = this._onMessage;
+    this.socket.onerror   = this._onError;
 }
 
 Connection.prototype._decodeMessage = function(message) {
     return JSON.parse(message)
 }
 
-Connection.prototype._encodeMessage = function(message) {
-    return JSON.stringify(message)
-}
 
-Connection.prototype._onSocketConnect = function() {
+Connection.prototype._onOpen = function() {
     console.log("Cconnect.....");
 }
 
-Connection.prototype._onSocketDisconnect = function() {
+Connection.prototype._onClose = function() {
     console.log("Disconnect.....");
     //AppMessenger.connection.connect();
 }
 
-Connection.prototype._onSocketError = function(message) {
+Connection.prototype._onError = function(message) {
     console.log(message);
 }
 
-Connection.prototype._onSocketData = function(message) {
-    let data = message.data;
-    AppMessenger.onmessage(data);
+Connection.prototype._onMessage = function(message) {
+    AppMessenger.onmessage(message.data);
 }
 
 

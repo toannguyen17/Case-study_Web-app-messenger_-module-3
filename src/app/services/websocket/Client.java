@@ -4,7 +4,7 @@ import app.controller.websocket.API;
 import app.services.auth.Auth;
 import app.services.auth.SessionGuard;
 import app.services.helpers.CookieHelpers;
-import app.services.websocket.message.*;
+import app.services.websocket.enc.*;
 import org.json.JSONObject;
 
 import javax.servlet.http.Cookie;
@@ -19,6 +19,7 @@ import java.util.Map;
 public class Client {
 
 	public Auth auth;
+	public long id;
 
 	public Session session;
 
@@ -40,6 +41,8 @@ public class Client {
 		auth = new SessionGuard(httpSession, resultCookie);
 
 		if (auth.check()) {
+			id = auth.user().getId();
+
 			WebSocket webSocket = WebSocket.getInstance();
 			webSocket.add(this);
 			JSONObject json = new JSONObject();
@@ -65,11 +68,8 @@ public class Client {
 		if (auth == null)
 			return;
 
-		System.out.println("on messenger");
 		if (!auth.check() || !session.isOpen()){
-			System.out.println("No auth");
 		}else{
-			System.out.println("Auth");
 			API controller = API.getInstance();
 			controller.request(message, this);
 		}
@@ -84,8 +84,6 @@ public class Client {
 		if (auth == null || !session.isOpen())
 			return;
 
-		System.out.println(session.isOpen());
-
 		try {
 			synchronized (Client.class) {
 				session.getBasicRemote().sendObject(json);
@@ -97,6 +95,7 @@ public class Client {
 			try {
 				session.close();
 			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 		}
 	}
